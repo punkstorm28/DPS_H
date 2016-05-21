@@ -43,8 +43,11 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
 
     public  int pageIndex=0;
 
+    public String fileName="sample.gif";
+
     public coWorkerSwitcher pdfRendererWorker;
-    ArrayList<Bitmap> Pages;
+
+
 
     private TextView Footer;
 
@@ -141,12 +144,12 @@ void saveBitmap(Bitmap bmp) throws IOException {
 
 // remember close de FileOutput
     fo.close();
-}
+    }
 
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
-        Pages=new ArrayList<Bitmap>();
+
 
         try {
             openRenderer(activity);
@@ -185,7 +188,7 @@ void saveBitmap(Bitmap bmp) throws IOException {
      */
     private void openRenderer(final Context context) throws IOException {
         // In this sample, we read a PDF from the assets directory.
-        mFileDescriptor = context.getAssets().openFd("sample.gif").getParcelFileDescriptor();
+        mFileDescriptor = context.getAssets().openFd(fileName).getParcelFileDescriptor();
         // This is the PdfRenderer we use to render the PDF.
         mPdfRenderer = new PdfRenderer(mFileDescriptor);
 
@@ -278,6 +281,7 @@ return bitmap;
     private class coWorkerSwitcher extends AsyncTask<Integer,Void,Bitmap>
 
     {
+
 
 
         @Override
