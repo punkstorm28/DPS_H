@@ -9,7 +9,19 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.vyomkeshjha.dps_h.Render.WelcomeScreen"
+    tools:context=".homeRender.WelcomeScreen"
     tools:showIn="@layout/app_bar_welcome_screen">
+    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="200dp"
+        android:numColumns="2"
+        android:verticalSpacing="15dp"
+        android:horizontalSpacing="15dp"
+        android:stretchMode="columnWidth"
+        android:background="#f5f5dc"
+        android:gravity="center"
+        />
 
 </RelativeLayout>

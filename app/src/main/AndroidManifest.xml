@@ -13,7 +13,7 @@
         </activity>
 
         <activity
-            android:name=".Render.WelcomeScreen"
+            android:name=".homeRender.WelcomeScreen"
             android:label="@string/title_activity_welcome_screen"
             android:theme="@style/AppTheme.NoActionBar"> <intent-filter>
             <action android:name="android.intent.action.MAIN" />
