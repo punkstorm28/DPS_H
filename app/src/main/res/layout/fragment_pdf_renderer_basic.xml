@@ -24,8 +24,7 @@
     <com.example.vyomkeshjha.dps_h.AddOns.ZoomableImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.01"
+        android:layout_height="match_parent"
         android:background="@android:color/white"
         android:scaleType="fitCenter" />
 

@@ -5,15 +5,16 @@ package com.example.vyomkeshjha.dps_h.Render;
         import android.content.Context;
         import android.graphics.Bitmap;
         import android.graphics.pdf.PdfRenderer;
+        import android.os.AsyncTask;
         import android.os.Bundle;
         import android.os.Environment;
         import android.os.ParcelFileDescriptor;
         import android.util.Log;
         import android.view.LayoutInflater;
-        import android.view.MotionEvent;
         import android.view.View;
         import android.view.ViewGroup;
         import android.widget.Button;
+        import android.widget.SeekBar;
         import android.widget.TextView;
         import android.widget.Toast;
 
@@ -25,6 +26,7 @@ package com.example.vyomkeshjha.dps_h.Render;
         import java.io.File;
         import java.io.FileOutputStream;
         import java.io.IOException;
+        import java.util.ArrayList;
 
 /**
  * This fragment has a big {@ImageView} that shows PDF pages, and 2 {@link android.widget.Button}s to move between
@@ -39,13 +41,16 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
      */
     private ParcelFileDescriptor mFileDescriptor;
 
-    private  int pageIndex=0;
+    public  int pageIndex=0;
 
+    public coWorkerSwitcher pdfRendererWorker;
+    ArrayList<Bitmap> Pages;
 
     private TextView Footer;
 
     private PdfRenderer mPdfRenderer;
 
+    private SeekBar pageSeek;
 
     private Context appContext=null;
     /**
@@ -80,28 +85,29 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Retain view references.
+
         mImageView = (ZoomableImageView) view.findViewById(R.id.image);
         try {
             mImageView.setOnTouchListener(new OnSwipeTouchListener(appContext){
                 public void onSwipeTop() {
-                   // Toast.makeText(appContext, "top", Toast.LENGTH_SHORT).show();
 
                 }
                 public void onSwipeRight() {
                    // Toast.makeText(appContext, "right", Toast.LENGTH_SHORT).show();
                     if(pageIndex>0)
-                    pageIndex--;
-                    showPage(pageIndex);
+                        pageIndex--;
+                    new coWorkerSwitcher().execute(pageIndex);
 
                 }
                 public void onSwipeLeft() {
                   //  Toast.makeText(appContext, "left", Toast.LENGTH_SHORT).show();
                     if(pageIndex<getPageCount()-1)
-                    pageIndex++;
-                    showPage(pageIndex);
+                        pageIndex++;
+                    new coWorkerSwitcher().execute(pageIndex);
                 }
                 public void onSwipeBottom() {
-                  //  Toast.makeText(appContext, "bottom", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(appContext, "bottom", Toast.LENGTH_SHORT).show();
+
                 }
             });
 
@@ -117,7 +123,7 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
        // Footer.setText("Smile when you look at it");
 
         Log.i("renderer","ImageViewCreation = "+mImageView);
-        showPage(pageIndex);
+        getPage(pageIndex);
 
     }
 
@@ -140,6 +146,8 @@ void saveBitmap(Bitmap bmp) throws IOException {
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
+        Pages=new ArrayList<Bitmap>();
+
         try {
             openRenderer(activity);
 
@@ -205,9 +213,10 @@ void saveBitmap(Bitmap bmp) throws IOException {
      *
      * @param index The page index.
      */
-    private void showPage(int index) {
+    int iterationCounter=1;
+    private Bitmap getPage(int index) {
         if (mPdfRenderer.getPageCount() <= index) {
-            return;
+            return null;
         }
         // Make sure to close the current page before opening another one.
         if (null != mCurrentPage) {
@@ -217,7 +226,7 @@ void saveBitmap(Bitmap bmp) throws IOException {
         mCurrentPage = mPdfRenderer.openPage(index);
 
         // Important: the destination bitmap must be ARGB (not RGB).
-        Bitmap bitmap = Bitmap.createBitmap(mCurrentPage.getWidth(), mCurrentPage.getHeight(),
+        Bitmap bitmap = Bitmap.createBitmap(300/72*mCurrentPage.getWidth(),300/72* mCurrentPage.getHeight(),
                 Bitmap.Config.ARGB_8888);
         // Here, we render the page onto the Bitmap.
         // To render a portion of the page, use the second and third parameter. Pass nulls to get
@@ -238,9 +247,11 @@ void saveBitmap(Bitmap bmp) throws IOException {
         }
         Log.i("renderer","BitmapData "+bitmap);
         Log.i("renderer","ImageView "+mImageView);
-         mImageView.setImageBitmap(bitmap);
-
-
+        if(pageIndex==0&&iterationCounter==1) {
+            mImageView.setImageBitmap(bitmap);
+            iterationCounter--;
+        }
+return bitmap;
 
         // call somthing to update the UI here
     }
@@ -262,4 +273,23 @@ void saveBitmap(Bitmap bmp) throws IOException {
         }
     }
 
-}
+
+
+    private class coWorkerSwitcher extends AsyncTask<Integer,Void,Bitmap>
+
+    {
+
+
+        @Override
+        protected Bitmap doInBackground(Integer... params) {
+
+            return getPage(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            mImageView.setImageBitmap(bitmap);
+        }
+    }
+    }
+
