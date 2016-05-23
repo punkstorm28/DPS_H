@@ -14,12 +14,13 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Render.MainActivity">
+    tools:context=".Render.MainActivity"
+    android:id="@+id/seek">
 
     <com.example.vyomkeshjha.dps_h.AddOns.ZoomableImageView
         android:id="@+id/image"
@@ -28,4 +29,10 @@
         android:background="@android:color/white"
         android:scaleType="fitCenter" />
 
-</LinearLayout>
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBar"
+        android:layout_gravity="center_horizontal|bottom" />
+
+</FrameLayout>

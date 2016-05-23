@@ -43,17 +43,22 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
 
     public  int pageIndex=0;
 
-    public String fileName="sample.gif";
+    SeekBar seek;
+
+
+    public static String fileName=null;
 
     public coWorkerSwitcher pdfRendererWorker;
 
 
+    int max=0;
+    int min=0;
+    int step=1;
 
     private TextView Footer;
 
     private PdfRenderer mPdfRenderer;
 
-    private SeekBar pageSeek;
 
     private Context appContext=null;
     /**
@@ -83,33 +88,75 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
 
         return inflater.inflate(R.layout.fragment_pdf_renderer_basic, container, false);
     }
+    int progressTrack=0;
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // Retain view references.
+
+        seek=(SeekBar)view.findViewById(R.id.seekBar);
+        max=getPageCount();
+        seek.setMax((max - min) / step);
+        seek.setOnSeekBarChangeListener(
+
+                new SeekBar.OnSeekBarChangeListener()
+
+                {
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        // Ex :
+                        // And finally when you want to retrieve the value in the range you
+                        // wanted in the first place -> [3-5]
+                        //
+                        // if progress = 13 -> value = 3 + (13 * 0.1) = 4.3
+                        int value = min + (progressTrack);
+                        pageIndex=value;
+                        new coWorkerSwitcher().execute(pageIndex);
+                        Log.i("value","value is: "+value);
+
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+
+                    }
+
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress,
+                                                  boolean fromUser)
+                    {
+
+                        progressTrack=progress;
+                    }
+                }
+        );
+
 
         mImageView = (ZoomableImageView) view.findViewById(R.id.image);
         try {
             mImageView.setOnTouchListener(new OnSwipeTouchListener(appContext){
                 public void onSwipeTop() {
-
+                    seek.setVisibility(view.VISIBLE);
                 }
                 public void onSwipeRight() {
-                   // Toast.makeText(appContext, "right", Toast.LENGTH_SHORT).show();
+
                     if(pageIndex>0)
                         pageIndex--;
                     new coWorkerSwitcher().execute(pageIndex);
+                    Toast.makeText(appContext, pageIndex, Toast.LENGTH_SHORT).show();
 
                 }
                 public void onSwipeLeft() {
-                  //  Toast.makeText(appContext, "left", Toast.LENGTH_SHORT).show();
+
                     if(pageIndex<getPageCount()-1)
                         pageIndex++;
                     new coWorkerSwitcher().execute(pageIndex);
+                    Toast.makeText(appContext, pageIndex, Toast.LENGTH_SHORT).show();
                 }
                 public void onSwipeBottom() {
-                    Toast.makeText(appContext, "bottom", Toast.LENGTH_SHORT).show();
+                    seek.setVisibility(view.GONE);
+
 
                 }
             });
@@ -130,21 +177,7 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
 
     }
 
-void saveBitmap(Bitmap bmp) throws IOException {
-    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-    bmp.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
 
-    //you can create a new file name "test.jpg" in sdcard folder.
-    File f = new File(Environment.getExternalStorageDirectory()
-            + File.separator + "test.bmp");
-    f.createNewFile();
-    //write the bytes in file
-    FileOutputStream fo = new FileOutputStream(f);
-    fo.write(bytes.toByteArray());
-
-// remember close de FileOutput
-    fo.close();
-    }
 
     @Override
     public void onAttach(final Activity activity) {
@@ -186,9 +219,10 @@ void saveBitmap(Bitmap bmp) throws IOException {
     /**
      * Sets up a {@link android.graphics.pdf.PdfRenderer} and related resources.
      */
-    private void openRenderer(final Context context) throws IOException {
+    private void openRenderer(Context context) throws IOException {
         // In this sample, we read a PDF from the assets directory.
-        mFileDescriptor = context.getAssets().openFd(fileName).getParcelFileDescriptor();
+        Log.i("Resource","fileName is "+PdfRendererBasicFragment.fileName);
+        mFileDescriptor = context.getAssets().openFd(PdfRendererBasicFragment.fileName).getParcelFileDescriptor();
         // This is the PdfRenderer we use to render the PDF.
         mPdfRenderer = new PdfRenderer(mFileDescriptor);
 
@@ -196,6 +230,8 @@ void saveBitmap(Bitmap bmp) throws IOException {
         appContext=context;
                 Log.i("renderer","pages = "+mPdfRenderer.getPageCount());
         Log.i("renderer","Renderer open");
+
+
     }
 
     /**
@@ -229,7 +265,7 @@ void saveBitmap(Bitmap bmp) throws IOException {
         mCurrentPage = mPdfRenderer.openPage(index);
 
         // Important: the destination bitmap must be ARGB (not RGB).
-        Bitmap bitmap = Bitmap.createBitmap(300/72*mCurrentPage.getWidth(),300/72* mCurrentPage.getHeight(),
+        Bitmap bitmap = Bitmap.createBitmap(277/72*mCurrentPage.getWidth(),277/72* mCurrentPage.getHeight(),
                 Bitmap.Config.ARGB_8888);
         // Here, we render the page onto the Bitmap.
         // To render a portion of the page, use the second and third parameter. Pass nulls to get
@@ -242,14 +278,10 @@ void saveBitmap(Bitmap bmp) throws IOException {
         mCurrentPage.render(bitmap,null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
         Log.i("currentPage",mCurrentPage.toString());
         // We are ready to show the Bitmap to user.
-        try {
-            saveBitmap(bitmap);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.i("renderer","BitmapData Saved "+bitmap);
-        }
+
         Log.i("renderer","BitmapData "+bitmap);
         Log.i("renderer","ImageView "+mImageView);
+        //PDFsearchHandler handler1 = new PDFsearchHandler(appContext);
         if(pageIndex==0&&iterationCounter==1) {
             mImageView.setImageBitmap(bitmap);
             iterationCounter--;
@@ -281,8 +313,6 @@ return bitmap;
     private class coWorkerSwitcher extends AsyncTask<Integer,Void,Bitmap>
 
     {
-
-
 
         @Override
         protected Bitmap doInBackground(Integer... params) {

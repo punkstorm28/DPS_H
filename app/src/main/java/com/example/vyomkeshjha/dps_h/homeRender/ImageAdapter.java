@@ -52,10 +52,11 @@ public class ImageAdapter extends BaseAdapter {
     private Integer[] mThumbIds = {
 
             R.drawable.yp6, R.drawable.yp7,
-            R.drawable.dpsicon,
+            R.drawable.dpsicon,R.drawable.sunbeam,
             R.drawable.yp8, R.drawable.yp10,
             R.drawable.yp11, R.drawable.yp12,
-            R.drawable.yp14, R.drawable.yp17
+            R.drawable.yp14, R.drawable.yp17,
+
 
     };
 }

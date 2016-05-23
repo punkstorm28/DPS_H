@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.vyomkeshjha.dps_h.R;
 import com.example.vyomkeshjha.dps_h.Render.MainActivity;
+import com.example.vyomkeshjha.dps_h.Render.PdfRendererBasicFragment;
 
 public class WelcomeScreen extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,10 +37,22 @@ public class WelcomeScreen extends AppCompatActivity
         catalogue.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                Toast.makeText(WelcomeScreen.this, "" + position,
-                        Toast.LENGTH_SHORT).show();
+               //// Toast.makeText(WelcomeScreen.this, "" + position,
+                  //      Toast.LENGTH_SHORT).show();
+
                 if(position==2)
                 {
+                    MainActivity activity = new MainActivity();
+                    PdfRendererBasicFragment.fileName="dps.gif";
+                    Intent intent = new Intent(WelcomeScreen.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                if(position==3)
+                {
+                    MainActivity activity = new MainActivity();
+                    PdfRendererBasicFragment.fileName="sunbeam.gif";
+
                     Intent intent = new Intent(WelcomeScreen.this, MainActivity.class);
                     startActivity(intent);
                     finish();
