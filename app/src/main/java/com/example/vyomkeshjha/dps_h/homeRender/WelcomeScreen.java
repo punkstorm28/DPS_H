@@ -2,8 +2,6 @@ package com.example.vyomkeshjha.dps_h.homeRender;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,11 +13,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.example.vyomkeshjha.dps_h.R;
-import com.example.vyomkeshjha.dps_h.Render.MainActivity;
-import com.example.vyomkeshjha.dps_h.Render.PdfRendererBasicFragment;
+import com.example.vyomkeshjha.dps_h.Render.PDFContainerAct;
+import com.example.vyomkeshjha.dps_h.Render.PdfRendererFrag;
 
 public class WelcomeScreen extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -42,18 +39,18 @@ public class WelcomeScreen extends AppCompatActivity
 
                 if(position==2)
                 {
-                    MainActivity activity = new MainActivity();
-                    PdfRendererBasicFragment.fileName="dps.gif";
-                    Intent intent = new Intent(WelcomeScreen.this, MainActivity.class);
+                    PDFContainerAct activity = new PDFContainerAct();
+                    PdfRendererFrag.fileName="dps.gif";
+                    Intent intent = new Intent(WelcomeScreen.this, PDFContainerAct.class);
                     startActivity(intent);
                     finish();
                 }
                 if(position==3)
                 {
-                    MainActivity activity = new MainActivity();
-                    PdfRendererBasicFragment.fileName="sunbeam.gif";
+                    PDFContainerAct activity = new PDFContainerAct();
+                    PdfRendererFrag.fileName="sunbeam.gif";
 
-                    Intent intent = new Intent(WelcomeScreen.this, MainActivity.class);
+                    Intent intent = new Intent(WelcomeScreen.this, PDFContainerAct.class);
                     startActivity(intent);
                     finish();
                 }

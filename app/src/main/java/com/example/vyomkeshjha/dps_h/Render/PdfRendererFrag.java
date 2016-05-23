@@ -7,7 +7,6 @@ package com.example.vyomkeshjha.dps_h.Render;
         import android.graphics.pdf.PdfRenderer;
         import android.os.AsyncTask;
         import android.os.Bundle;
-        import android.os.Environment;
         import android.os.ParcelFileDescriptor;
         import android.util.Log;
         import android.view.LayoutInflater;
@@ -22,17 +21,13 @@ package com.example.vyomkeshjha.dps_h.Render;
         import com.example.vyomkeshjha.dps_h.AddOns.ZoomableImageView;
         import com.example.vyomkeshjha.dps_h.R;
 
-        import java.io.ByteArrayOutputStream;
-        import java.io.File;
-        import java.io.FileOutputStream;
         import java.io.IOException;
-        import java.util.ArrayList;
 
 /**
  * This fragment has a big {@ImageView} that shows PDF pages, and 2 {@link android.widget.Button}s to move between
  * pages. We use a {@link android.graphics.pdf.PdfRenderer} to render PDF pages as {@link android.graphics.Bitmap}s.
  */
-public class PdfRendererBasicFragment extends Fragment implements View.OnClickListener {
+public class PdfRendererFrag extends Fragment implements View.OnClickListener {
 
     private static final String STATE_CURRENT_PAGE_INDEX = "current_page_index";
 
@@ -79,7 +74,7 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
      */
     private Button mButtonNext;
 
-    public PdfRendererBasicFragment() {
+    public PdfRendererFrag() {
     }
 
     @Override
@@ -96,7 +91,7 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
 
         seek=(SeekBar)view.findViewById(R.id.seekBar);
         max=getPageCount();
-        seek.setMax((max - min) / step);
+        seek.setMax(((max - min) / step)-1);
         seek.setOnSeekBarChangeListener(
 
                 new SeekBar.OnSeekBarChangeListener()
@@ -104,11 +99,7 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
                 {
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBar) {
-                        // Ex :
-                        // And finally when you want to retrieve the value in the range you
-                        // wanted in the first place -> [3-5]
-                        //
-                        // if progress = 13 -> value = 3 + (13 * 0.1) = 4.3
+
                         int value = min + (progressTrack);
                         pageIndex=value;
                         new coWorkerSwitcher().execute(pageIndex);
@@ -138,6 +129,7 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
             mImageView.setOnTouchListener(new OnSwipeTouchListener(appContext){
                 public void onSwipeTop() {
                     seek.setVisibility(view.VISIBLE);
+                    PDFContainerAct.ActionReference.show();
                 }
                 public void onSwipeRight() {
 
@@ -156,7 +148,7 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
                 }
                 public void onSwipeBottom() {
                     seek.setVisibility(view.GONE);
-
+                    PDFContainerAct.ActionReference.hide();
 
                 }
             });
@@ -221,8 +213,8 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
      */
     private void openRenderer(Context context) throws IOException {
         // In this sample, we read a PDF from the assets directory.
-        Log.i("Resource","fileName is "+PdfRendererBasicFragment.fileName);
-        mFileDescriptor = context.getAssets().openFd(PdfRendererBasicFragment.fileName).getParcelFileDescriptor();
+        Log.i("Resource","fileName is "+ PdfRendererFrag.fileName);
+        mFileDescriptor = context.getAssets().openFd(PdfRendererFrag.fileName).getParcelFileDescriptor();
         // This is the PdfRenderer we use to render the PDF.
         mPdfRenderer = new PdfRenderer(mFileDescriptor);
 

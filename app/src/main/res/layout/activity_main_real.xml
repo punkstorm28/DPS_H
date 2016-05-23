@@ -18,8 +18,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Render.MainActivity"
+    tools:context=".Render.PDFContainerAct"
     tools:ignore="MergeRootFrame"
     android:id="@+id/container">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/controlBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
+
 
 </FrameLayout>

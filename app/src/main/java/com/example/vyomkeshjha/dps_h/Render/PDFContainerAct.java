@@ -16,26 +16,33 @@
 
 package com.example.vyomkeshjha.dps_h.Render;
 
-import android.app.Activity;
+
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.vyomkeshjha.dps_h.R;
 
-public class MainActivity extends Activity {
+public class PDFContainerAct extends AppCompatActivity {
 
     public static final String FRAGMENT_PDF_RENDERER_BASIC = "pdf_renderer_basic";
-
+     Toolbar supportBar;
+     static ActionBar ActionReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_real);
-
+        supportBar=(Toolbar)findViewById(R.id.controlBar);
+        setSupportActionBar(supportBar);
+        ActionReference= getSupportActionBar();
+        //ActionReference.hide();
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PdfRendererBasicFragment(),
+                    .add(R.id.container, new PdfRendererFrag(),
                             FRAGMENT_PDF_RENDERER_BASIC)
                     .commit();
         }
