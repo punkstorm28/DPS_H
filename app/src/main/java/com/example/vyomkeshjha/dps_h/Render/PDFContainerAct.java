@@ -24,6 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 import com.example.vyomkeshjha.dps_h.R;
 
@@ -36,9 +37,12 @@ public class PDFContainerAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_real);
+
         supportBar=(Toolbar)findViewById(R.id.controlBar);
         setSupportActionBar(supportBar);
         ActionReference= getSupportActionBar();
+        ActionReference.setDisplayShowTitleEnabled(false);
+
         //ActionReference.hide();
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
@@ -50,7 +54,9 @@ public class PDFContainerAct extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.pdf_renderer_menu, menu);
+
+
         return true;
     }
 

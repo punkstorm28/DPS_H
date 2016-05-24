@@ -4,6 +4,7 @@ package com.example.vyomkeshjha.dps_h.Render;
         import android.app.Fragment;
         import android.content.Context;
         import android.graphics.Bitmap;
+        import android.graphics.Color;
         import android.graphics.pdf.PdfRenderer;
         import android.os.AsyncTask;
         import android.os.Bundle;
@@ -14,7 +15,6 @@ package com.example.vyomkeshjha.dps_h.Render;
         import android.view.ViewGroup;
         import android.widget.Button;
         import android.widget.SeekBar;
-        import android.widget.TextView;
         import android.widget.Toast;
 
         import com.example.vyomkeshjha.dps_h.AddOns.OnSwipeTouchListener;
@@ -41,16 +41,16 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
     SeekBar seek;
 
 
-    public static String fileName=null;
+    public static String fileName= "DPS/dps.gif";
 
-    public coWorkerSwitcher pdfRendererWorker;
-
+    private Button nextPage;
+    private Button previousPage;
 
     int max=0;
     int min=0;
     int step=1;
 
-    private TextView Footer;
+
 
     private PdfRenderer mPdfRenderer;
 
@@ -67,12 +67,11 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
     /**
      * {@link android.widget.Button} to move to the previous page.
      */
-    private Button mButtonPrevious;
+
 
     /**
      * {@link android.widget.Button} to move to the next page.
      */
-    private Button mButtonNext;
 
     public PdfRendererFrag() {
     }
@@ -88,6 +87,35 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        previousPage=(Button)view.findViewById(R.id.nxB);
+        previousPage.setVisibility(View.VISIBLE);
+        previousPage.setBackgroundColor(Color.TRANSPARENT);
+
+
+        nextPage=(Button)view.findViewById(R.id.nxP);
+        nextPage.setVisibility(View.VISIBLE);
+        nextPage.setBackgroundColor(Color.TRANSPARENT);
+
+        previousPage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(pageIndex>0)
+                    pageIndex--;
+                new coWorkerSwitcher().execute(pageIndex);
+
+            }
+        });
+
+        nextPage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                if(pageIndex<getPageCount()-1)
+                    pageIndex++;
+                new coWorkerSwitcher().execute(pageIndex);
+            }
+        });
+
+
+
 
         seek=(SeekBar)view.findViewById(R.id.seekBar);
         max=getPageCount();
@@ -125,6 +153,8 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
 
 
         mImageView = (ZoomableImageView) view.findViewById(R.id.image);
+
+
         try {
             mImageView.setOnTouchListener(new OnSwipeTouchListener(appContext){
                 public void onSwipeTop() {
@@ -214,7 +244,10 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
     private void openRenderer(Context context) throws IOException {
         // In this sample, we read a PDF from the assets directory.
         Log.i("Resource","fileName is "+ PdfRendererFrag.fileName);
-        mFileDescriptor = context.getAssets().openFd(PdfRendererFrag.fileName).getParcelFileDescriptor();
+        mFileDescriptor = context.getAssets().openFd(fileName).getParcelFileDescriptor();
+
+       // ParcelFileDescriptor des2=context.getAssets().openFd("gif").getParcelFileDescriptor();
+       // ParcelFileDescriptor des2=context.getAssets().openFd("gif").getParcelFileDescriptor();
         // This is the PdfRenderer we use to render the PDF.
         mPdfRenderer = new PdfRenderer(mFileDescriptor);
 
@@ -226,11 +259,7 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
 
     }
 
-    /**
-     * Closes the {@link android.graphics.pdf.PdfRenderer} and related resources.
-     *
-     * @throws java.io.IOException When the PDF file cannot be closed.
-     */
+
     private void closeRenderer() throws IOException {
         if (null != mCurrentPage) {
             mCurrentPage.close();
@@ -245,7 +274,12 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
      * @param index The page index.
      */
     int iterationCounter=1;
+
+
     private Bitmap getPage(int index) {
+
+        Log.i("page_",mFileDescriptor.toString());
+
         if (mPdfRenderer.getPageCount() <= index) {
             return null;
         }
@@ -256,6 +290,9 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
         // Use `openPage` to open a specific page in PDF.
         mCurrentPage = mPdfRenderer.openPage(index);
 
+        //checking for thread safety issue
+
+
         // Important: the destination bitmap must be ARGB (not RGB).
         Bitmap bitmap = Bitmap.createBitmap(277/72*mCurrentPage.getWidth(),277/72* mCurrentPage.getHeight(),
                 Bitmap.Config.ARGB_8888);
@@ -263,32 +300,28 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
         // To render a portion of the page, use the second and third parameter. Pass nulls to get
         // the default result.
         // Pass either RENDER_MODE_FOR_DISPLAY or RENDER_MODE_FOR_PRINT for the last parameter.
-        if(mPdfRenderer.shouldScaleForPrinting())
-        {
 
-        }
+
         mCurrentPage.render(bitmap,null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
-        Log.i("currentPage",mCurrentPage.toString());
-        // We are ready to show the Bitmap to user.
 
+        Log.i("currentPage",mCurrentPage.toString());
         Log.i("renderer","BitmapData "+bitmap);
         Log.i("renderer","ImageView "+mImageView);
         //PDFsearchHandler handler1 = new PDFsearchHandler(appContext);
+
         if(pageIndex==0&&iterationCounter==1) {
             mImageView.setImageBitmap(bitmap);
             iterationCounter--;
         }
-return bitmap;
+        seek.setProgress(index);
 
-        // call somthing to update the UI here
+        return bitmap;
+
     }
 
 
-    /**
-     * Gets the number of pages in the PDF. This method is marked as public for testing.
-     *
-     * @return The number of pages.
-     */
+
+
     public int getPageCount() {
         return mPdfRenderer.getPageCount();
     }
@@ -311,11 +344,12 @@ return bitmap;
 
             return getPage(params[0]);
         }
-
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             mImageView.setImageBitmap(bitmap);
         }
     }
+
+
     }
 

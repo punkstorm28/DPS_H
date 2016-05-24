@@ -39,13 +39,13 @@ public class WelcomeScreen extends AppCompatActivity
 
                 if(position==2)
                 {
-                    PDFContainerAct activity = new PDFContainerAct();
-                    PdfRendererFrag.fileName="dps.gif";
+                    //PDFContainerAct activity = new PDFContainerAct();
+                   // PdfRendererFrag.fileName="dps.gif";
                     Intent intent = new Intent(WelcomeScreen.this, PDFContainerAct.class);
                     startActivity(intent);
                     finish();
                 }
-                if(position==3)
+               /* if(position==3)
                 {
                     PDFContainerAct activity = new PDFContainerAct();
                     PdfRendererFrag.fileName="sunbeam.gif";
@@ -53,7 +53,7 @@ public class WelcomeScreen extends AppCompatActivity
                     Intent intent = new Intent(WelcomeScreen.this, PDFContainerAct.class);
                     startActivity(intent);
                     finish();
-                }
+                }*/
             }
         });
 

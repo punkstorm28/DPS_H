@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.toolbar.PDFContainerAct" >
+
+
+
+    <item
+        android:id="@+id/actionShare"
+        android:orderInCategory="1"
+        android:title="share"
+        android:icon="@drawable/ic_menu_share"
+        app:showAsAction="ifRoom"
+        android:menuCategory="secondary"
+        />
+
+    <item
+        android:id="@+id/search_bar"
+        android:orderInCategory="2"
+        android:title="search"
+        android:icon="@drawable/ic_menu_search"
+        app:showAsAction="ifRoom"
+        android:menuCategory="secondary"
+
+        />
+
+
+    <item
+        android:id="@+id/action_info"
+        android:orderInCategory="3"
+        android:title="info"
+        android:icon="@drawable/ic_menu_info"
+        app:showAsAction="ifRoom"
+        android:menuCategory="secondary"
+
+        />
+
+</menu>

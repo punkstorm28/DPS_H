@@ -573,7 +573,7 @@ public class ZoomableImageView extends View {
             if(isAnimating == true) {
                 return true;
             }
-
+            midPoint(new PointF(event.getX(),event.getY()),event);
             scaleChange = 1;
             isAnimating = true;
             targetScaleX = event.getX();

@@ -17,10 +17,12 @@ public class ImageAdapter extends BaseAdapter {
 
     public ImageAdapter(Context c) {
         mContext = c;
+        new AssetList().listAssetFiles(mContext);
     }
 
     public int getCount() {
         return mThumbIds.length;
+
     }
 
     public Object getItem(int position) {

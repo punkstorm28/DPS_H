@@ -1,8 +1,15 @@
 package com.example.vyomkeshjha.dps_h.homeRender;
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.util.Log;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by vyomkeshjha on 21/05/16.
@@ -10,26 +17,31 @@ import java.io.IOException;
 public class AssetList {
 
 
+    public List listAssetFiles(Context context) {
 
-
-    private boolean listAssetFiles(String path, Context context) {
-
-        String [] list;
+        AssetManager assetManager = context.getAssets();
+        String[] files = new String[0];
         try {
-            list = context.getAssets().list(path);
-            if (list.length > 0) {
-                // This is a folder
-                for (String file : list) {
+            files = assetManager.list("");
 
-                }
-            } else {
-                // This is a file
-                // TODO: add file name to an array list
-            }
+
         } catch (IOException e) {
-            return false;
+            e.printStackTrace();
         }
+        List<String> FileNameList = Arrays.asList(files);
+        ArrayList<String> outList = new ArrayList<String>();
+        for (int i = 0; i < FileNameList.size(); i++) {
+            String name = FileNameList.get(i);
+            if (name.contains("gif")) {
+                outList.add(name);
+            }
 
-        return true;
+
+        }
+        Log.i("files list ", "" + outList);
+
+        return FileNameList;
+
     }
 }
+

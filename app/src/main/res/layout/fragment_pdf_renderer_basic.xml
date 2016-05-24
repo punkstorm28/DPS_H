@@ -38,5 +38,17 @@
 
         />
 
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="475dp"
+        android:id="@+id/nxB"
+        android:layout_gravity="left|top" />
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="475dp"
+        android:id="@+id/nxP"
+        android:layout_gravity="right|top" />
+
 
 </FrameLayout>
