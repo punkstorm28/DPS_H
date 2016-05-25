@@ -48,9 +48,9 @@ public class PDFsearchHandler extends Activity {
             strategy = parser.processContent(i, new SimpleTextExtractionStrategy());
             String Page = strategy.getResultantText();
             PageList.add(Page);
-            Log.i("pdf text",Page);
+            //  Log.i("pdf text",Page);
         }
-        search("dhoni");
+        //search("Dhoni");
         reader.close();
 
     }

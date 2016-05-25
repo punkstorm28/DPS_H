@@ -96,6 +96,8 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
         nextPage.setVisibility(View.VISIBLE);
         nextPage.setBackgroundColor(Color.TRANSPARENT);
 
+
+
         previousPage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(pageIndex>0)
