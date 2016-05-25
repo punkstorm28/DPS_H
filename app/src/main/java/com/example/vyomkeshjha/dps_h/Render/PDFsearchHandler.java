@@ -50,7 +50,7 @@ public class PDFsearchHandler extends Activity {
             PageList.add(Page);
             Log.i("pdf text",Page);
         }
-        search("agai");
+        search("dhoni");
         reader.close();
 
     }
@@ -59,13 +59,12 @@ public class PDFsearchHandler extends Activity {
         ArrayList<String> outList= new ArrayList<String>();
         for(String page:PageList)
         {
-           
+
             if(page.contains(searchString))
             {
 
-                String[] breakups = page.split(".");
-                ArrayList<String> tempList = new ArrayList<String >();
-                tempList = (ArrayList) Arrays.asList(tempList);
+                String[] breakups = page.split("  ");
+                ArrayList<String> tempList = new ArrayList<String>(Arrays.asList(breakups));
                 for(String iterator:tempList)
                 {
                     if (iterator.contains(searchString))
@@ -76,7 +75,10 @@ public class PDFsearchHandler extends Activity {
 
             }
         }
-        Log.i("outlist"," "+outList);
+        for(String ite:outList) {
+            Log.i("match found: ", " " + ite);
+
+        }
         return outList;
     }
 }
