@@ -4,6 +4,9 @@ import android.content.Context;
 
 
 import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by vyomkeshjha on 22/05/16.
@@ -22,9 +25,10 @@ public class PDFsearchHandler extends Activity {
     PdfReaderContentParser parser;
     TextExtractionStrategy strategy;
     static int currentPageIndex=0;
-    
+    ArrayList<String> PageList;
     PDFsearchHandler(Context context)
     {
+        PageList = new ArrayList<String>();
         Log.i("apples","doing it");
         try {
             ReadPDF(context);
@@ -33,6 +37,7 @@ public class PDFsearchHandler extends Activity {
             e.printStackTrace();
         }
     }
+
     public void ReadPDF(Context context) throws IOException {
         Log.i("pdf text","file opening");
         reader=new PdfReader(context.getAssets().open("DPS/dps.gif"));
@@ -41,11 +46,37 @@ public class PDFsearchHandler extends Activity {
         parser = new PdfReaderContentParser(reader);
         for (int i = 1; i <= reader.getNumberOfPages(); i++) {
             strategy = parser.processContent(i, new SimpleTextExtractionStrategy());
-
-            Log.i("pdf text",strategy.getResultantText());
+            String Page = strategy.getResultantText();
+            PageList.add(Page);
+            Log.i("pdf text",Page);
         }
+        search("agai");
         reader.close();
 
     }
+    public ArrayList search(String searchString)
+    {
+        ArrayList<String> outList= new ArrayList<String>();
+        for(String page:PageList)
+        {
+           
+            if(page.contains(searchString))
+            {
 
+                String[] breakups = page.split(".");
+                ArrayList<String> tempList = new ArrayList<String >();
+                tempList = (ArrayList) Arrays.asList(tempList);
+                for(String iterator:tempList)
+                {
+                    if (iterator.contains(searchString))
+                    {
+                        outList.add(iterator);
+                    }
+                }
+
+            }
+        }
+        Log.i("outlist"," "+outList);
+        return outList;
+    }
 }

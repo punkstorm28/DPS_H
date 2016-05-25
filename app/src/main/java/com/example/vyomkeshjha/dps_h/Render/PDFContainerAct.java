@@ -18,7 +18,9 @@ package com.example.vyomkeshjha.dps_h.Render;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -29,7 +31,7 @@ import android.view.Window;
 import com.example.vyomkeshjha.dps_h.R;
 
 public class PDFContainerAct extends AppCompatActivity {
-
+    Context appContext;
     public static final String FRAGMENT_PDF_RENDERER_BASIC = "pdf_renderer_basic";
      Toolbar supportBar;
      static ActionBar ActionReference;
@@ -66,9 +68,25 @@ public class PDFContainerAct extends AppCompatActivity {
             case R.id.action_info:
                 new AlertDialog.Builder(this)
                         .setPositiveButton(android.R.string.ok, null)
-                        .show();
+                        .setMessage("papa kehte hai bara naam karega, betwa hamara aisa kaam karega, mager ye to koi naa jane").show();
                 return true;
+            case R.id.search:
+            {
+                appContext=this;
+                new Thread(new SearchAction()).start();
+            }
+
         }
         return super.onOptionsItemSelected(item);
     }
+    private class SearchAction implements Runnable
+    {
+        @Override
+        public void run() {
+            if(!appContext.equals(null)){
+                Looper.prepare();
+                PDFsearchHandler handler = new PDFsearchHandler(appContext);}
+        }
+    }
+
 }
