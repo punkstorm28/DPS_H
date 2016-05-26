@@ -21,6 +21,8 @@ public class Search extends ListActivity {
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
+
+            //Do your search here
             searchResults=searchHandler.search(query);
         }
 

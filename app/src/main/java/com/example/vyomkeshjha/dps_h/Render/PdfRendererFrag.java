@@ -9,10 +9,13 @@ package com.example.vyomkeshjha.dps_h.Render;
         import android.os.AsyncTask;
         import android.os.Bundle;
         import android.os.ParcelFileDescriptor;
+        import android.util.Base64;
         import android.util.Log;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
+        import android.webkit.WebSettings;
+        import android.webkit.WebView;
         import android.widget.Button;
         import android.widget.SeekBar;
         import android.widget.Toast;
@@ -21,6 +24,7 @@ package com.example.vyomkeshjha.dps_h.Render;
         import com.example.vyomkeshjha.dps_h.AddOns.ZoomableImageView;
         import com.example.vyomkeshjha.dps_h.R;
 
+        import java.io.ByteArrayOutputStream;
         import java.io.IOException;
 
 /**
@@ -50,8 +54,8 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
     int min=0;
     int step=1;
 
-
-
+    Fragment pdfSeek;
+    WebView webview;
     private PdfRenderer mPdfRenderer;
 
 
@@ -62,7 +66,7 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
     private PdfRenderer.Page mCurrentPage;
 
 
-    private ZoomableImageView mImageView;
+    //private ZoomableImageView mImageView;
 
     /**
      * {@link android.widget.Button} to move to the previous page.
@@ -152,13 +156,18 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
                     }
                 }
         );
+               webview =(WebView)view.findViewById(R.id.webView);
+        webview.getSettings().setLoadWithOverviewMode(true);
+        webview.getSettings().setUseWideViewPort(true);
+        webview.getSettings().setBuiltInZoomControls(true);
+        webview.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
 
 
-        mImageView = (ZoomableImageView) view.findViewById(R.id.image);
+        //   mImageView = (ZoomableImageView) view.findViewById(R.id.image);
 
 
         try {
-            mImageView.setOnTouchListener(new OnSwipeTouchListener(appContext){
+            webview.setOnTouchListener(new OnSwipeTouchListener(appContext){
                 public void onSwipeTop() {
                     seek.setVisibility(view.VISIBLE);
                     PDFContainerAct.ActionReference.show();
@@ -190,13 +199,13 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
         catch (NullPointerException e)
         {
 
-            Log.e("renderer"," "+e.toString()+ " and context is "+" image is"+mImageView);
+           // Log.e("renderer"," "+e.toString()+ " and context is "+" image is"+mImageView);
         }
 
         //Footer =(TextView) view.findViewById(R.id.textView) ;
        // Footer.setText("Smile when you look at it");
 
-        Log.i("renderer","ImageViewCreation = "+mImageView);
+       // Log.i("renderer","ImageViewCreation = "+mImageView);
         getPage(pageIndex);
 
     }
@@ -253,7 +262,7 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
         // This is the PdfRenderer we use to render the PDF.
         mPdfRenderer = new PdfRenderer(mFileDescriptor);
 
-        Log.i("renderer","mImageView is "+mImageView);
+       // Log.i("renderer","mImageView is "+mImageView);
         appContext=context;
                 Log.i("renderer","pages = "+mPdfRenderer.getPageCount());
         Log.i("renderer","Renderer open");
@@ -308,11 +317,12 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
 
         Log.i("currentPage",mCurrentPage.toString());
         Log.i("renderer","BitmapData "+bitmap);
-        Log.i("renderer","ImageView "+mImageView);
+        //Log.i("renderer","ImageView "+mImageView);
         //PDFsearchHandler handler1 = new PDFsearchHandler(appContext);
 
         if(pageIndex==0&&iterationCounter==1) {
-            mImageView.setImageBitmap(bitmap);
+          //  mImageView.setImageBitmap(bitmap);
+            setBitmapToWebView(bitmap);
             iterationCounter--;
         }
         seek.setProgress(index);
@@ -320,7 +330,24 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
         return bitmap;
 
     }
+     void setBitmapToWebView(Bitmap page)
+     {
+         Bitmap bitmap = page;
+         String html="<html><body><img src='{IMAGE_PLACEHOLDER}' /></body></html>";
 
+// Convert bitmap to Base64 encoded image for web
+         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+         byte[] byteArray = byteArrayOutputStream.toByteArray();
+         String imgageBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+         String image = "data:image/png;base64," + imgageBase64;
+
+// Use image for the img src parameter in your html and load to webview
+         html = html.replace("{IMAGE_PLACEHOLDER}", image);
+         webview.loadDataWithBaseURL("file:///android_asset/", html, "text/html", "utf-8", "");
+
+
+     }
 
 
 
@@ -348,7 +375,8 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
         }
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            mImageView.setImageBitmap(bitmap);
+          //  mImageView.setImageBitmap(bitmap);
+            setBitmapToWebView(bitmap);
         }
     }
 

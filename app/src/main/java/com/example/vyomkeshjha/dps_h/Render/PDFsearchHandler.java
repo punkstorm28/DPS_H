@@ -50,7 +50,7 @@ public class PDFsearchHandler extends Activity {
             PageList.add(Page);
             //  Log.i("pdf text",Page);
         }
-        //search("Dhoni");
+        search("Dhoni");
         reader.close();
 
     }

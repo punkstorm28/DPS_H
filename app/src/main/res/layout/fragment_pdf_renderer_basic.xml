@@ -20,14 +20,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Render.PDFContainerAct"
-    android:id="@+id/seek">
-
-    <com.example.vyomkeshjha.dps_h.AddOns.ZoomableImageView
-        android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:scaleType="fitCenter" />
+    android:id="@+id/pdfRender">
 
     <SeekBar
         android:layout_width="match_parent"
@@ -49,6 +42,12 @@
         android:layout_height="475dp"
         android:id="@+id/nxP"
         android:layout_gravity="right|top" />
+
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="533dp"
+        android:id="@+id/webView"
+        android:layout_gravity="center" />
 
 
 </FrameLayout>
