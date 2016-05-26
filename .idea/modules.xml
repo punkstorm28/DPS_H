@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DPS_H.iml" filepath="$PROJECT_DIR$/DPS_H.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Subsampling-scale-image-view/Subsampling-scale-image-view.iml" filepath="$PROJECT_DIR$/Subsampling-scale-image-view/Subsampling-scale-image-view.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

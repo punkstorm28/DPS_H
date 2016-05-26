@@ -43,11 +43,11 @@
         android:id="@+id/nxP"
         android:layout_gravity="right|top" />
 
-    <WebView
+    <com.example.vyomkeshjha.dps_h.AddOns.PanAndZoom
         android:layout_width="match_parent"
-        android:layout_height="533dp"
-        android:id="@+id/webView"
-        android:layout_gravity="center" />
+        android:layout_height="550dp"
+        android:id="@+id/panZoom"
+        android:layout_gravity="right|top" />
 
 
 </FrameLayout>

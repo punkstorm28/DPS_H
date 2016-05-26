@@ -1,12 +1,8 @@
 package com.example.vyomkeshjha.dps_h.AddOns;
 
-/**
- * Created by vyomkeshjha on 23/05/16.
- */
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.widget.ImageView;
@@ -110,17 +106,22 @@ public class PanAndZoom extends ImageView {
                 break;
             }
             case MotionEvent.ACTION_POINTER_UP: {
+
                 final int pointerIndex = (ev.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK)
                         >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
                 final int pointerId = ev.getPointerId(pointerIndex);
                 if (pointerId == mActivePointerId) {
-                    Log.d("DEBUG", "mActivePointerId");
                     // This was our active pointer going up. Choose a new
                     // active pointer and adjust accordingly.
                     final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
                     mLastTouchX = ev.getX(newPointerIndex);
                     mLastTouchY = ev.getY(newPointerIndex);
                     mActivePointerId = ev.getPointerId(newPointerIndex);
+                }
+                else{
+                    final int tempPointerIndex = ev.findPointerIndex(mActivePointerId);
+                    mLastTouchX = ev.getX(tempPointerIndex);
+                    mLastTouchY = ev.getY(tempPointerIndex);
                 }
 
                 break;
@@ -129,7 +130,11 @@ public class PanAndZoom extends ImageView {
 
         return true;
     }
-
+    public void ResetView() {
+        mScaleFactor = 1.f;
+        mPosX = 0.f;
+        mPosY = 0.f;
+    }
     @Override
     public void onDraw(Canvas canvas) {
 
@@ -141,10 +146,11 @@ public class PanAndZoom extends ImageView {
             canvas.scale(mScaleFactor, mScaleFactor, mScaleDetector.getFocusX(), mScaleDetector.getFocusY());
         }
         else{
-            canvas.scale(mScaleFactor, mScaleFactor);
+            canvas.scale(mScaleFactor, mScaleFactor, mLastGestureX, mLastGestureY);
         }
         super.onDraw(canvas);
         canvas.restore();
+
     }
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
@@ -153,7 +159,7 @@ public class PanAndZoom extends ImageView {
             mScaleFactor *= detector.getScaleFactor();
 
             // Don't let the object get too small or too large.
-            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 10.0f));
+            mScaleFactor = Math.max(1f, Math.min(mScaleFactor, 4.0f));
 
             invalidate();
             return true;
