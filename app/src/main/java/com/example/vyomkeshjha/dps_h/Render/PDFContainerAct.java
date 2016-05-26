@@ -19,6 +19,7 @@ package com.example.vyomkeshjha.dps_h.Render;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v7.app.ActionBar;
@@ -74,6 +75,12 @@ public class PDFContainerAct extends AppCompatActivity {
             {
                 appContext=this;
                 new Thread(new SearchAction()).start();
+            }
+            case R.id.share:
+            {
+                Intent intent = new Intent(this, RatingActivity.class);
+                startActivity(intent);
+                finish();
             }
 
         }

@@ -15,17 +15,13 @@ package com.example.vyomkeshjha.dps_h.Render;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
-        import android.webkit.WebSettings;
-        import android.webkit.WebView;
+
         import android.widget.Button;
-        import android.widget.ImageView;
+
         import android.widget.SeekBar;
         import android.widget.Toast;
 
-        import com.example.vyomkeshjha.dps_h.AddOns.OnSwipeTouchListener;
-        import com.example.vyomkeshjha.dps_h.AddOns.PanAndZoom;
         import com.example.vyomkeshjha.dps_h.AddOns.TouchImageView;
-        import com.example.vyomkeshjha.dps_h.AddOns.ZoomableImageView;
         import com.example.vyomkeshjha.dps_h.R;
 
         import java.io.ByteArrayOutputStream;
