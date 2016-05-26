@@ -24,6 +24,7 @@ package com.example.vyomkeshjha.dps_h.Render;
 
         import com.example.vyomkeshjha.dps_h.AddOns.OnSwipeTouchListener;
         import com.example.vyomkeshjha.dps_h.AddOns.PanAndZoom;
+        import com.example.vyomkeshjha.dps_h.AddOns.TouchImageView;
         import com.example.vyomkeshjha.dps_h.AddOns.ZoomableImageView;
         import com.example.vyomkeshjha.dps_h.R;
 
@@ -47,7 +48,7 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
 
     SeekBar seek;
 
-    public PanAndZoom imageView;
+    public TouchImageView imageView;
     public static String fileName= "DPS/dps.gif";
 
     private Button nextPage;
@@ -167,7 +168,7 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
                 }
         );
 
-        imageView=(PanAndZoom) view.findViewById(R.id.panZoom);
+        imageView=(TouchImageView) view.findViewById(R.id.panZoom);
 
 
 
@@ -385,7 +386,7 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
         }
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            imageView.ResetView();
+           // imageView.ResetView();
              imageView.setImageBitmap(bitmap);
             //setBitmapToWebView(bitmap);
 

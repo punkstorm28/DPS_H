@@ -26,6 +26,7 @@ public class PanAndZoom extends ImageView {
     public PanAndZoom(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
         mScaleDetector = new ScaleGestureDetector(getContext(), new ScaleListener());
+
     }
 
     public PanAndZoom(Context context, AttributeSet attrs, int defStyle) {
@@ -139,8 +140,10 @@ public class PanAndZoom extends ImageView {
     public void onDraw(Canvas canvas) {
 
         canvas.save();
+        //this handles the panning
 
         canvas.translate(mPosX, mPosY);
+
 
         if (mScaleDetector.isInProgress()) {
             canvas.scale(mScaleFactor, mScaleFactor, mScaleDetector.getFocusX(), mScaleDetector.getFocusY());

@@ -22,6 +22,25 @@
     tools:context=".Render.PDFContainerAct"
     android:id="@+id/pdfRender">
 
+    <Button
+        android:layout_width="40dp"
+        android:layout_height="475dp"
+        android:id="@+id/nxB"
+        android:layout_gravity="left|top" />
+
+    <Button
+        android:layout_width="40dp"
+        android:layout_height="475dp"
+        android:id="@+id/nxP"
+        android:layout_gravity="right|top" />
+
+    <com.example.vyomkeshjha.dps_h.AddOns.TouchImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/panZoom"
+        android:background="#f8f8ff"
+        android:layout_gravity="right|top" />
+
     <SeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,24 +49,6 @@
         android:indeterminate="false"
 
         />
-
-    <Button
-        android:layout_width="30dp"
-        android:layout_height="475dp"
-        android:id="@+id/nxB"
-        android:layout_gravity="left|top" />
-
-    <Button
-        android:layout_width="30dp"
-        android:layout_height="475dp"
-        android:id="@+id/nxP"
-        android:layout_gravity="right|top" />
-
-    <com.example.vyomkeshjha.dps_h.AddOns.PanAndZoom
-        android:layout_width="match_parent"
-        android:layout_height="550dp"
-        android:id="@+id/panZoom"
-        android:layout_gravity="right|top" />
 
 
 </FrameLayout>
