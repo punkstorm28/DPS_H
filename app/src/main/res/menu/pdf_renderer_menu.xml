@@ -14,23 +14,32 @@
         app:showAsAction="ifRoom"
         android:menuCategory="secondary"
         />
-
+    <!--
     <item
         android:id="@+id/search"
-        android:orderInCategory="2"
         android:title="search"
+        android:actionViewClass="android.support.v7.widget.SearchView"
         android:icon="@drawable/ic_menu_search"
-        app:showAsAction="ifRoom"
-        android:menuCategory="secondary"
+        app:showAsAction="always"
+        android:menuCategory="alternative"
 
         />
-
+-->
 
     <item
         android:id="@+id/action_info"
         android:orderInCategory="3"
         android:title="info"
         android:icon="@drawable/ic_menu_info"
+        app:showAsAction="ifRoom"
+        android:menuCategory="secondary"
+
+        />
+    <item
+        android:id="@+id/star"
+        android:orderInCategory="100"
+        android:title="star"
+        android:icon="@drawable/ic_menu_star"
         app:showAsAction="ifRoom"
         android:menuCategory="secondary"
 

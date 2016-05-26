@@ -18,6 +18,7 @@ package com.example.vyomkeshjha.dps_h.Render;
 
 
 import android.app.AlertDialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,24 +28,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
+import android.widget.SearchView;
 
 import com.example.vyomkeshjha.dps_h.R;
 
 public class PDFContainerAct extends AppCompatActivity {
     Context appContext;
     public static final String FRAGMENT_PDF_RENDERER_BASIC = "pdf_renderer_basic";
-     Toolbar supportBar;
-     static ActionBar ActionReference;
+    Toolbar supportBar;
+    static ActionBar ActionReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_real);
 
-        supportBar=(Toolbar)findViewById(R.id.controlBar);
+        supportBar = (Toolbar) findViewById(R.id.controlBar);
         setSupportActionBar(supportBar);
-        ActionReference= getSupportActionBar();
+        ActionReference = getSupportActionBar();
         ActionReference.setDisplayShowTitleEnabled(false);
+
 
         //ActionReference.hide();
         if (savedInstanceState == null) {
@@ -71,29 +74,26 @@ public class PDFContainerAct extends AppCompatActivity {
                         .setPositiveButton(android.R.string.ok, null)
                         .setMessage("papa kehte hai bara naam karega, betwa hamara aisa kaam karega, mager ye to koi naa jane").show();
                 return true;
-            case R.id.search:
-            {
-                appContext=this;
-                new Thread(new SearchAction()).start();
-            }
-            case R.id.share:
-            {
+
+            case R.id.star: {
                 Intent intent = new Intent(this, RatingActivity.class);
                 startActivity(intent);
-                finish();
+               // finish();
+                return true;
             }
 
         }
         return super.onOptionsItemSelected(item);
     }
-    private class SearchAction implements Runnable
-    {
+
+    private class SearchAction implements Runnable {
         @Override
         public void run() {
-            if(!appContext.equals(null)){
+            if (!appContext.equals(null)) {
                 Looper.prepare();
-                PDFsearchHandler handler = new PDFsearchHandler(appContext);}
+                //  PDFsearchHandler handler = new PDFsearchHandler(appContext);}
+            }
         }
-    }
 
+    }
 }
