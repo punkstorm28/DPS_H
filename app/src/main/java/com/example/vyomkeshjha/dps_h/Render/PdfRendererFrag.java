@@ -84,7 +84,7 @@ public class PdfRendererFrag extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_pdf_renderer_basic, container, false);
+        return inflater.inflate(R.layout.fragment_pdf_rendere, container, false);
     }
     int progressTrack=0;
 

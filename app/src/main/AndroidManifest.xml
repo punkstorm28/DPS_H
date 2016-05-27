@@ -11,7 +11,7 @@
         <activity
             android:name=".homeRender.WelcomeScreen"
             android:label="@string/title_activity_welcome_screen"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppThemeDP.NoActionBar">
 
 
         </activity>

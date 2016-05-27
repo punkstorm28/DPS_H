@@ -25,6 +25,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'com.itextpdf:itextg:5.5.9'
-    compile files('libs/pinch-0.8.jar')
-    compile project(':Subsampling-scale-image-view')
+
+
 }

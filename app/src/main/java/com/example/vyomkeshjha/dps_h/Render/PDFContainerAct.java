@@ -18,7 +18,6 @@ package com.example.vyomkeshjha.dps_h.Render;
 
 
 import android.app.AlertDialog;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,7 +27,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.SearchView;
 
 import com.example.vyomkeshjha.dps_h.R;
 
@@ -41,7 +39,7 @@ public class PDFContainerAct extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_real);
+        setContentView(R.layout.activity_pdf_renderer);
 
         supportBar = (Toolbar) findViewById(R.id.controlBar);
         setSupportActionBar(supportBar);
